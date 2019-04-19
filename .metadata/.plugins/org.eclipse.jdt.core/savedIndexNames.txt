@@ -1,0 +1,8 @@
+INDEX VERSION 1.131+C:\Users\kjevo\AdventOfCode\.metadata\.plugins\org.eclipse.jdt.core
+2675077487.index
+4046594196.index
+3805658159.index
+1340278006.index
+2306060472.index
+3685620773.index
+1564576290.index

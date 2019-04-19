@@ -1,0 +1,94 @@
+package com.kjellvos.aletho;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	static Location[] locations;
+	static Position[][] positions;
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		int countLocations = 0;
+		ArrayList<String> input = new ArrayList<String>();
+		Scanner scanner = new Scanner(new File("input.txt"));  
+		while (scanner.hasNextLine()) {
+			countLocations++;
+			input.add(scanner.nextLine());
+		}
+		scanner.close();
+		locations = new Location[countLocations];
+		
+		/*
+		 * Loop over de input om de grootste x en grootste y te vinden
+		 * Dan zet je bepaalde locaties apart (input locaties)
+		 * Dan kan je x locatie 1 en x locatie 2 van elkaar af trekken en zo de 
+		 * dichtbijzijnde vinden
+		 */
+		
+		
+		int biggestX = 0;
+		int biggestY = 0;
+		for (int i = 0; i < input.size(); i++) {
+			String[] xy = input.get(i).split(", ");
+			int x = Integer.parseInt(xy[0]);
+			int y = Integer.parseInt(xy[1]);
+			
+			locations[i].x = x;
+			locations[i].y = y;
+			//System.out.println(x + " " + y);
+			
+			if (biggestX < x) {
+				biggestX = x;
+			}
+			if (biggestY < y) {
+				biggestY = y;
+			}
+		}
+		
+		System.out.println(biggestX + " " + biggestY);
+		positions = new Position[biggestX + 1][biggestY + 1];
+		
+		for (int loopX = 0; loopX <= biggestX; loopX++) {
+			for (int loopY = 0; loopY <= biggestY; loopY++) {
+				positions[loopX][loopY] = new Position();
+			}
+		}
+		
+		for (int i = 0; i < input.size(); i++) {
+			String[] xy = input.get(i).split(", ");
+			int x = Integer.parseInt(xy[0]);
+			int y = Integer.parseInt(xy[1]);
+			
+			positions[x][y].coordinate = true;
+			positions[x][y].coordinateId = i;
+			//System.out.println(x + " " + y);
+		}
+		
+		for (int loopX = 0; loopX <= biggestX; loopX++) {
+			for (int loopY = 0; loopY <= biggestY; loopY++) {
+				positions[loopX][loopY].closestTo = closestTo(loopX, loopY);
+			}
+		}
+	}
+	
+	public static int closestTo(int x, int y) {
+		int locationId = 0;
+		int minX = Integer.MAX_VALUE;
+		int minY = Integer.MAX_VALUE;
+		for (int i = 0; i < locations.length; i++) {
+			if (locations[i].x - x < minX) {
+				minX = Math.abs(locations[i].x - x);
+				locationId = i;
+			}
+			if (locations[i].y - y < minY) {
+				minY = Math.abs(locations[i].y - y);
+				locationId = i;
+			}
+		}
+		System.out.println(locationId);
+		return locationId;
+	}
+}

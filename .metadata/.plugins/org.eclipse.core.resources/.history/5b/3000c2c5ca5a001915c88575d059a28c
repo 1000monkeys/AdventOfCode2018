@@ -1,0 +1,76 @@
+package com.kjellvos.aletho;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+	private static char[] polymerChain;
+	private static int eliminatedCount = 0;
+	
+	public static void main(String[] args) throws IOException {
+		
+		String polymer = "";
+		Scanner scanner = new Scanner(new File("input.txt"));  
+		while (scanner.hasNextLine()) {
+			polymer = scanner.nextLine();
+		}
+		scanner.close();
+		
+		polymerChain = polymer.toCharArray();
+		
+		int test = 50000;
+		for (int i = 0; i < polymerChain.length; i++) {
+			eliminate(i);
+			if (i + 1 == polymerChain.length) {
+				removeSpaces();
+				if (eliminatedCount == 0) {
+					break;
+				}
+				i = 0;
+			}
+		}
+		
+		System.out.println("The solution: ");
+		System.out.print(polymerChain.length);
+	}
+	
+	public static void removeSpaces() {
+		eliminatedCount = 0;
+		for (int j = 0; j < polymerChain.length; j++) {
+			if (Character.isSpaceChar(polymerChain[j])) {
+				eliminatedCount++;
+			}
+		}
+
+
+		int k = 0;
+		char[] tempPolymerChain = new char[polymerChain.length - eliminatedCount];
+		for (int j = 0; j < polymerChain.length; j++) {
+			if (!Character.isSpaceChar(polymerChain[j])) {
+				tempPolymerChain[k] = polymerChain[j];
+				k++;
+			}
+		}
+	
+		polymerChain = tempPolymerChain;
+	}
+	
+	public static void eliminate(int i) {
+		if (polymerChain.length > i + 1) {
+			if (Character.isUpperCase(polymerChain[i]) && Character.isLowerCase(polymerChain[i + 1])) {
+				if (Character.toLowerCase(polymerChain[i]) == polymerChain[i + 1]) {
+					polymerChain[i] = ' ';
+					polymerChain[i + 1] = ' ';
+					System.out.println("Reaction " + i);
+				}
+			}else if (Character.isLowerCase(polymerChain[i]) && Character.isUpperCase(polymerChain[i + 1])) {
+				if (Character.toUpperCase(polymerChain[i]) == polymerChain[i + 1]) {
+					polymerChain[i] = ' ';
+					polymerChain[i + 1] = ' ';
+					System.out.println("Reaction " + i);
+				}
+			}
+		}
+	}
+}

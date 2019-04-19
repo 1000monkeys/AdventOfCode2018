@@ -1,0 +1,7 @@
+package com.kjellvos.aletho;
+
+public class Position {
+	public boolean coordinate;
+	public int coordinateId;
+	public int closestTo;
+}

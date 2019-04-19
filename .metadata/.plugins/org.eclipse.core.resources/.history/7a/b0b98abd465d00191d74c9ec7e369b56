@@ -1,0 +1,29 @@
+package com.kjellvos.aletho;
+
+class Main {
+
+    private static String solve(String input) {
+		/**
+		 * find out the length of the polymer once it has reacted
+		 * @input a string of random letters with random capitalization
+		 * @return length of the corresponding polymer once reacted
+		 */
+        Polymer polymer = new Polymer(input);
+        polymer.reactAll();
+        return Integer.toString(polymer.units.size());
+    };
+
+    public static void main(String[] args) {
+		String input = "";
+		Scanner scanner = new Scanner(new File("input.txt"));  
+		while (scanner.hasNextLine()) {
+			polymer = scanner.nextLine();
+		}
+		scanner.close();
+    	
+    	
+        long startTime = System.currentTimeMillis();
+        String result = solve(input);
+        System.out.println("_duration: " + (System.currentTimeMillis() - startTime) + "\n" + result);
+    }
+}

@@ -1,0 +1,23 @@
+package com.kjellvos.aletho;
+
+import java.util.ArrayList;
+
+public class Node {
+	ArrayList<Character> dependencies = new ArrayList<Character>();
+	char identifyingLetter;
+	
+	public Node(char identifier) {
+		this.identifyingLetter = identifier;
+	}
+	
+	public void addToDependencies(char dependency) {
+		dependencies.add(dependency);
+	}
+
+	public boolean blockedByDependencies() {
+		if (dependencies.size() > 0) {
+			return false;
+		}
+		return true;
+	}
+}

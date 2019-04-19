@@ -1,0 +1,6 @@
+package com.kjellvos.aletho;
+
+public class Worker {
+	public char stepCode;
+	public int timeLeft;
+}

@@ -1,0 +1,34 @@
+package com.kjellvos.aletho;
+
+import java.util.ArrayList;
+
+public class Node {
+	public ArrayList<Character> dependencies;
+	
+	public Node() {
+		dependencies = new ArrayList<Character>();
+	}
+	
+	public void addToDependencies(char dependency) {
+		dependencies.add(dependency);
+	}
+
+	public boolean blockedByDependencies() {
+		if (dependencies.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void removeDependencie(char dependency) {
+		System.out.println(dependencies.size());
+		dependencies.remove(new Character(dependency));
+		System.out.println(dependencies.size());
+	}
+	
+	public String getString() {
+		String output = "";
+		output += dependencies.get(0);
+		return output;
+	}
+}

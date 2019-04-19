@@ -1,0 +1,48 @@
+package com.kjellvos.aletho;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	private static ArrayList<Character> polymerChain = new ArrayList<Character>();
+	
+	public static void main(String[] args) throws IOException {
+		
+		String polymer = "";
+		Scanner scanner = new Scanner(new File("input.txt"));  
+		while (scanner.hasNextLine()) {
+			polymer = scanner.nextLine();
+		}
+		scanner.close();
+		
+		for (int i = 0; i < polymer.length(); i++) {
+			polymerChain.add(new Character(polymer.charAt(i)));
+		}
+		
+		for (int i = 0; i < polymerChain.size(); i++) {	
+			if (i + 1 < polymerChain.size()) {
+				if (Character.isUpperCase(polymerChain.get(i)) && Character.isLowerCase(polymerChain.get(i + 1))) {
+					if (Character.toLowerCase(polymerChain.get(i)) == polymerChain.get(i + 1)) {
+						polymerChain.remove(i + 1);
+						polymerChain.remove(i);
+						System.out.println("Reaction " + i);
+						i = 0;
+					}
+				}else if (Character.isLowerCase(polymerChain.get(i)) && Character.isUpperCase(polymerChain.get(i + 1))) {
+					if (Character.toUpperCase(polymerChain.get(i)) == polymerChain.get(i + 1)) {
+						polymerChain.remove(i + 1);
+						polymerChain.remove(i);
+						System.out.println("Reaction " + i);
+						i = 0;
+					}
+				}
+			//System.out.println(polymerChain.length);
+			}
+		}
+
+		System.out.println("The solution: ");
+		System.out.print(polymerChain.size());
+	}
+}

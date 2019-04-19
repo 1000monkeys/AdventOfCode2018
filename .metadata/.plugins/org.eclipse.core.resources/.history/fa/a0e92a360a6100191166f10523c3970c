@@ -1,0 +1,111 @@
+package com.kjellvos.aletho;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+	static Location[] locations;
+	static Position[][] positions;
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		int countLocations = 0;
+		ArrayList<String> input = new ArrayList<String>();
+		Scanner scanner = new Scanner(new File("input.txt"));  
+		while (scanner.hasNextLine()) {
+			countLocations++;
+			input.add(scanner.nextLine());
+		}
+		scanner.close();
+		locations = new Location[countLocations];
+				
+		int biggestX = 0;
+		int biggestY = 0;
+		for (int i = 0; i < input.size(); i++) {
+			String[] xy = input.get(i).split(", ");
+			int x = Integer.parseInt(xy[0]);
+			int y = Integer.parseInt(xy[1]);
+			
+			locations[i] = new Location();
+			locations[i].x = x;
+			locations[i].y = y;
+			//System.out.println(x + " " + y);
+			
+			if (biggestX < x) {
+				biggestX = x;
+			}
+			if (biggestY < y) {
+				biggestY = y;
+			}
+		}
+		
+		System.out.println(biggestX + " " + biggestY);
+		positions = new Position[biggestX + 1][biggestY + 1];
+		
+		for (int loopX = 0; loopX <= biggestX; loopX++) {
+			for (int loopY = 0; loopY <= biggestY; loopY++) {
+				positions[loopX][loopY] = new Position();
+			}
+		}
+		
+		for (int i = 0; i < input.size(); i++) {
+			String[] xy = input.get(i).split(", ");
+			int x = Integer.parseInt(xy[0]);
+			int y = Integer.parseInt(xy[1]);
+			
+			positions[x][y].coordinate = true;
+			positions[x][y].coordinateId = i;
+			//System.out.println(x + " " + y);
+		}
+		
+		for (int loopX = 0; loopX <= biggestX; loopX++) {
+			for (int loopY = 0; loopY <= biggestY; loopY++) {
+				positions[loopX][loopY].closestTo = closestTo(loopX, loopY);
+			}
+		}
+		
+		HashMap<Integer, Integer> count = new HashMap<Integer, Integer>();
+		for (int i = 0; i < locations.length; i++) {
+			count.put(i, 0);
+		}
+		
+		for (int i = 0; i < biggestX; i++) {
+			for (int j = 0; j < biggestY; j++) {
+					count.put(positions[i][j].closestTo, count.get(positions[i][j].closestTo) + 1);
+			}
+		}
+		
+		for (int i = 0; i < count.size(); i++) {
+			System.out.println(count.get(i) + " times " + i);
+		}
+		
+		int locationId = 0;
+		int biggestSize = 0;
+		for (int i = 0; i < count.size(); i++) {
+			if (count.get(i) > biggestSize) {
+				System.out.println(count.get(i));
+				biggestSize = count.get(i);
+				locationId = i;
+			}
+		}
+		
+		System.out.println("Result: " + biggestSize);
+	}
+	
+	public static int closestTo(int x, int y) {
+		int minDistance = Integer.MAX_VALUE;
+		int locationId = 0;
+		for (int i = 0; i < locations.length; i++) {
+			int distance = Math.abs(locations[i].x - x) + Math.abs(locations[i].y - y);
+			if (distance < minDistance) {
+				minDistance = distance;
+				locationId = i;
+			}
+		}
+		//System.out.println(locationId);
+		return locationId;
+	}
+}

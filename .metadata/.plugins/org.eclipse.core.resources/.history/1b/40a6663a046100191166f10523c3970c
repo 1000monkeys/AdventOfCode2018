@@ -1,6 +1,0 @@
-package com.kjellvos.aletho;
-
-public class Locations {
-	int x;
-	int y;
-}
